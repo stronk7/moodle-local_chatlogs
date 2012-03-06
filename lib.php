@@ -41,9 +41,11 @@ function local_chatlogs_can_access() {
 
     if (has_capability('local/chatlogs:viewifdeveloper', $context)) {
         if ($cohortid = get_config('local_chatlogs', 'cohortid')) {
-            // Only allowed to view if in developer cohort
-            if ($DB->get_record('cohort_members', array('cohortid' => $cohortid, 'userid' => $USER->id))) {
-                return true;
+            if ($cohortid > 0) {
+                // Only allowed to view if in developer cohort
+                if ($DB->get_record('cohort_members', array('cohortid' => $cohortid, 'userid' => $USER->id))) {
+                    return true;
+                }
             }
         }
     }

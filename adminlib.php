@@ -15,22 +15,35 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Settings for local_chatlogs plugin
+ * Admin tree class for lazyloading config box
  *
  * @package     local_chatlogs
  * @copyright   2012 Dan Poltawski <dan@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot.'/local/chatlogs/adminlib.php');
 
-if (has_capability('moodle/site:config', get_system_context())) {
-    $temp = new admin_settingpage('local_chatlogs_settings', get_string('pluginname', 'local_chatlogs'), 'moodle/site:config');
+/**
+ * admin_setting_configselect for the seleted cohort
+ * simply so we can lazy-load the choices.
+ *
+ * @copyright Dan Poltawski <dan@moodle.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class local_chatlogs_cohort_selector extends admin_setting_configselect {
 
-    $temp->add(new local_chatlogs_cohort_selector('local_chatlogs/cohortid', get_string('developercohort', 'local_chatlogs'),
-        get_string('developercohortdescription', 'local_chatlogs'), 0, null));
+    /** Lazy-load the available choices for the select box */
+    public function load_choices() {
+        global $DB;
 
-    $ADMIN->add('localplugins', $temp);
+        $this->choices = array(0 => get_string('none'));
+        if ($cohorts = $DB->get_records_menu('cohort', array('contextid' => context_system::instance()->id), 'name', 'id, name')) {
+            foreach($cohorts as $key => $value){
+                $this->choices[$key] = $value;
+            }
+        }
+
+        return true;
+    }
 }
