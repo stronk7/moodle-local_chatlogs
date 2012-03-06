@@ -43,7 +43,7 @@ if ($data = data_submitted()) {
     $jabberid = required_param('jabberid', PARAM_RAW);
     $userid = required_param('userid', PARAM_INT);
     if (!empty($userid)) {
-        $status = add_user_to_jabberid($jabberid, $userid);
+        $status = link_jabberid_to_user($jabberid, $userid);
         if ($status === false) {
             print_error('failed');
         }
