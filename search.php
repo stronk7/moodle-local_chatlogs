@@ -14,8 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+
 /**
- * Displays list of conversations or a specific covnersation depending on params
+ * Searches chat history based on specific terms
  *
  * @package     local_chatlogs
  * @copyright   2012 Dan Poltawski <dan@moodle.com>
@@ -26,32 +27,32 @@ require_once('../../config.php');
 require_once($CFG->dirroot.'/local/chatlogs/locallib.php');
 require_once($CFG->dirroot.'/local/chatlogs/lib.php');
 
-$conversationid = optional_param('conversationid', 0, PARAM_INT);
+$searchterm = optional_param('q', '', PARAM_TEXT);
 
-$PAGE->set_context(context_system::instance());
-$PAGE->set_pagelayout('standard');
-$PAGE->set_url(new moodle_url('/local/chatlogs/index.php'));
-
-$PAGE->set_title(get_string('pluginname', 'local_chatlogs'));
-$PAGE->set_heading(get_string('pluginname', 'local_chatlogs'));
-
-require_login(null, false);
+require_login(SITEID, false);
 
 if (!local_chatlogs_can_access()) {
     print_error('nopermissions', 'error');
     die;
 }
 
+$PAGE->set_context(context_system::instance());
+$PAGE->set_pagelayout('standard');
+$PAGE->set_url(new moodle_url('/local/chatlogs/search.php', array('q' => $searchterm)));
+
+$PAGE->set_title(get_string('searchchat', 'local_chatlogs'));
+$PAGE->set_heading(get_string('searchchat', 'local_chatlogs'));
+
+
 echo $OUTPUT->header();
-if ($conversationid) {
-    $conversation = new local_chatlogs_conversation($conversationid);
-    $conversation->render();
-} else {
-    echo $OUTPUT->heading(get_string('developerconversations', 'local_chatlogs'));
-    echo local_chatlogs_search_table::form();
-    $table = new local_chatlogs_converations_table('chatlogs-table');
+echo $OUTPUT->heading(get_string('searchchat', 'local_chatlogs'));
+
+echo local_chatlogs_search_table::form($searchterm);
+
+if (!empty($searchterm)) {
+    $table = new local_chatlogs_search_table('fooo', $searchterm);
     $table->define_baseurl($PAGE->url);
-    $table->out(20, true);
+    $table->out(50, true);
 }
 
 echo $OUTPUT->footer();

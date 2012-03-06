@@ -334,3 +334,132 @@ class local_chatlogs_conversation {
         echo $this->conversation_footer();
     }
 }
+
+/**
+ * Table listing jabber search results
+ *
+ * @copyright   2012 Dan Poltawski <dan@moodle.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class local_chatlogs_search_table extends table_sql {
+    private $searchterm = null;
+
+    /**
+     * Sets up the table_sql parameters
+     *
+     * @param string $uniqueid unique id of form
+     * @param string $searchterm of search
+     */
+    public function __construct($uniqueid, $searchterm) {
+        global $DB;
+
+        parent::__construct($uniqueid);
+
+        $this->searchterm = $searchterm;
+        $this->set_attribute('class', 'devchat');
+
+        $this->sql->fields = 'm.id AS messageid, m.fromemail, m.fromplace, m.timesent,
+                              m.message, m.conversationid, p.nickname,
+                              p.userid, '.user_picture::fields('u');
+
+        $this->sql->from = '{local_chatlogs_messages} m
+                            LEFT JOIN {local_chatlogs_participants} p
+                                ON m.fromemail = p.fromemail
+                            LEFT JOIN {user} u ON p.userid = u.id';
+
+        $this->sql->where = $DB->sql_like('m.message', ':search');
+        $this->sql->params = array('search' => '%'.$searchterm.'%');
+
+
+        $this->define_columns(array('timesent', 'userpic', 'userid', 'message'));
+        $this->define_headers(array('Timesent', '', 'User', 'Message'));
+        $this->column_class('timesent', 'userinfo');
+        $this->column_class('userpic', 'userpic');
+        $this->column_class('userid', 'userinfo usersays');
+        $this->column_class('message', 'talkmessage');
+        $this->no_sorting('message');
+        $this->collapsible(false);
+        $this->sortable(true, 'timesent', SORT_DESC);
+    }
+
+    /**
+     * Generate timesent cell
+     *
+     * @param stdClass $row row data
+     * @return string HTML for the column
+     */
+    public function col_timesent($row) {
+        $link = new moodle_url('/local/chatlogs/index.php');
+        $link->params( array('conversationid' => $row->conversationid));
+        $link->set_anchor('c'.$row->messageid);
+
+        return html_writer::link($link, userdate($row->timesent),  array('class' => 'jabbertime'));
+    }
+
+    /**
+     * Generate userid cell
+     *
+     * @param stdClass $row row data
+     * @return string HTML for the column
+     */
+    public function col_userid($row) {
+        return $row->nickname;
+    }
+
+    /**
+     * Generate userpic cell
+     *
+     * @param stdClass $row row data
+     * @return string HTML for the column
+     */
+    public function col_userpic($row) {
+        global $OUTPUT;
+        if (!empty($row->userid)) {
+            return $OUTPUT->user_picture($row);
+        }
+        return '';
+    }
+
+    /**
+     * Generate message cell
+     *
+     * @param stdClass $row row data
+     * @return string HTML for the column
+     */
+    public function col_message($row) {
+        $text = '';
+
+        if (trim(substr($row->message, 0, 4)) == '/me') {
+            // convert /me
+            $text.= $row->nickname.' ';
+            $row->message = substr(trim($row->message), 4);
+        }
+
+        $message = format_text($row->message, FORMAT_MOODLE, array('para' => false));
+        $text .= highlight($this->searchterm, $message);
+
+        return $text;
+    }
+
+    /**
+     * Returns the search form for searching chat messages
+     *
+     * @param string $searchtext text searched for
+     * @return string HTML for searchform
+     */
+    public static function form($searchtext = '') {
+        $o = '';
+
+        $url = new moodle_url('/local/chatlogs/search.php');
+
+        $o.= html_writer::start_tag('div', array('class' => 'searchform'));
+        $o.= html_writer::start_tag('form', array('method' => 'get', 'action' => $url->out()));
+        $o.= html_writer::empty_tag('input', array('type' => 'text', 'name' => 'q',
+             'value' => $searchtext, 'maxlength' => 100, 'size' => 20));
+        $o.= html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('searchmessages', 'local_chatlogs')));
+        $o.= html_writer::end_tag('form');
+        $o.= html_writer::end_tag('div');
+
+        return $o;
+    }
+}
