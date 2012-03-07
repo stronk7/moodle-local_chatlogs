@@ -36,3 +36,4 @@ $string['jabberfullname'] = 'Jabber Nick';
 $string['pluginname'] = 'Developer chat';
 $string['searchchat'] = 'Search chat history';
 $string['searchmessages'] = 'Search messages';
+$string['viewchatlogs'] = 'View chat logs';

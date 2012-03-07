@@ -24,14 +24,9 @@
 
 require(dirname(dirname(dirname(__FILE__))).'/config.php');
 require($CFG->dirroot.'/local/chatlogs/locallib.php');
-require($CFG->dirroot.'/local/chatlogs/lib.php');
 
 require_login(SITEID, false);
-
-if (!local_chatlogs_can_access()) {
-    print_error('nopermissions', 'error');
-    die;
-}
+local_chatlogs_require_capability();
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/local/chatlogs/info.php'));

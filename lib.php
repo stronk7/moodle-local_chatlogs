@@ -60,8 +60,14 @@ function local_chatlogs_can_access() {
  * @category navigation
  */
 function chatlogs_extends_navigation(global_navigation $navigation) {
+    global $SESSION;
 
-    if (local_chatlogs_can_access()) {
+    // horrible hack to prevent additional db queries on every page
+    if (isloggedin() && !isguestuser() && !property_exists($SESSION, 'show_devchat_nav')) {
+        $SESSION->show_devchat_nav = (bool) local_chatlogs_can_access();
+    }
+
+    if (property_exists($SESSION, 'show_devchat_nav') && $SESSION->show_devchat_nav) {
         $node = $navigation->add(get_string('pluginname', 'local_chatlogs'), null, navigation_node::TYPE_CUSTOM,
             null, 'local_chatlogs-root');
         $node->add(get_string('developerconversations', 'local_chatlogs'), new moodle_url('/local/chatlogs/index.php'),

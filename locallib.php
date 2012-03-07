@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/tablelib.php');
+require_once($CFG->dirroot.'/local/chatlogs/lib.php');
 
 /**
  * Table listing jabber conversations
@@ -461,5 +462,18 @@ class local_chatlogs_search_table extends table_sql {
         $o.= html_writer::end_tag('div');
 
         return $o;
+    }
+}
+
+/**
+ * A require_capability() like function for this module.
+ *
+ * As we can't use capbilties alone this emulates the acceslib function to prevent having to do
+ * it in ever file.
+ */
+function  local_chatlogs_require_capability() {
+    if (!local_chatlogs_can_access()) {
+        print_error('nopermissions', 'error', '',  get_string('viewchatlogs', 'local_chatlogs'));
+        die;
     }
 }

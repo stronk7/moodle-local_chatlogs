@@ -24,7 +24,6 @@
 
 require_once('../../config.php');
 require_once($CFG->dirroot.'/local/chatlogs/locallib.php');
-require_once($CFG->dirroot.'/local/chatlogs/lib.php');
 
 $conversationid = optional_param('conversationid', 0, PARAM_INT);
 
@@ -36,11 +35,7 @@ $PAGE->set_title(get_string('pluginname', 'local_chatlogs'));
 $PAGE->set_heading(get_string('pluginname', 'local_chatlogs'));
 
 require_login(null, false);
-
-if (!local_chatlogs_can_access()) {
-    print_error('nopermissions', 'error');
-    die;
-}
+local_chatlogs_require_capability();
 
 echo $OUTPUT->header();
 if ($conversationid) {

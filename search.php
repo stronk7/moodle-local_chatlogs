@@ -25,16 +25,11 @@
 
 require_once('../../config.php');
 require_once($CFG->dirroot.'/local/chatlogs/locallib.php');
-require_once($CFG->dirroot.'/local/chatlogs/lib.php');
 
 $searchterm = optional_param('q', '', PARAM_TEXT);
 
 require_login(SITEID, false);
-
-if (!local_chatlogs_can_access()) {
-    print_error('nopermissions', 'error');
-    die;
-}
+local_chatlogs_require_capability();
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
