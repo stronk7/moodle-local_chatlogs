@@ -451,7 +451,7 @@ class local_chatlogs_search_table extends table_sql {
     public static function form($searchtext = '') {
         $o = '';
 
-        $url = new moodle_url('/local/chatlogs/search.php');
+        $url = new moodle_url('/local/chatlogs/index.php');
 
         $o.= html_writer::start_tag('div', array('class' => 'searchform'));
         $o.= html_writer::start_tag('form', array('method' => 'get', 'action' => $url->out()));

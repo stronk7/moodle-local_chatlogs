@@ -26,6 +26,7 @@ require_once('../../config.php');
 require_once($CFG->dirroot.'/local/chatlogs/locallib.php');
 
 $conversationid = optional_param('conversationid', 0, PARAM_INT);
+$searchterm = optional_param('q', '', PARAM_TEXT);
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
@@ -38,7 +39,18 @@ require_login(null, false);
 local_chatlogs_require_capability();
 
 echo $OUTPUT->header();
-if ($conversationid) {
+
+
+if (!empty($searchterm)) {
+    echo $OUTPUT->heading(get_string('searchchat', 'local_chatlogs'));
+    echo local_chatlogs_search_table::form($searchterm);
+
+    $table = new local_chatlogs_search_table('dev-search', $searchterm);
+    $url = $PAGE->url;
+    $url->param('q', $searchterm);
+    $table->define_baseurl($url);
+    $table->out(50, true);
+} else if ($conversationid) {
     $conversation = new local_chatlogs_conversation($conversationid);
     $conversation->render();
 } else {

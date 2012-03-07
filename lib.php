@@ -72,8 +72,6 @@ function chatlogs_extends_navigation(global_navigation $navigation) {
             null, 'local_chatlogs-root');
         $node->add(get_string('developerconversations', 'local_chatlogs'), new moodle_url('/local/chatlogs/index.php'),
             navigation_node::TYPE_CUSTOM, null, 'local_chatlogs-conversations');
-        $node->add(get_string('searchchat', 'local_chatlogs'), new moodle_url('/local/chatlogs/search.php'),
-            navigation_node::TYPE_CUSTOM, null, 'local_chatlogs-search');
         $node->add(get_string('info', 'local_chatlogs'), new moodle_url('/local/chatlogs/info.php'),
             navigation_node::TYPE_CUSTOM, null, 'local_chatlogs-info');
         if (has_capability('moodle/site:config', context_system::instance())) {
