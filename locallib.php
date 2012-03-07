@@ -302,7 +302,11 @@ class local_chatlogs_conversation {
             $namecell = new html_table_cell();
             $namecell->attributes['title'] = $message->fromemail.'/'.$message->fromplace;
             $namecell->attributes['class'] = 'userinfo usersays';
-            $namecell->text = html_writer::tag('strong', $message->nickname) . html_writer::empty_tag('br');
+            if (!empty($message->userid)) {
+                $namecell->text = fullname($message) . html_writer::empty_tag('br');
+            }else{
+                $namecell->text = $message->nickname . html_writer::empty_tag('br');
+            }
             $namecell->text.= html_writer::link('#c'.$message->messageid, $time,  array('class' => 'jabbertime'));
 
             $messagecell = new html_table_cell();
@@ -404,7 +408,11 @@ class local_chatlogs_search_table extends table_sql {
      * @return string HTML for the column
      */
     public function col_userid($row) {
-        return $row->nickname;
+        if (empty($row->userid)) {
+            return $row->nickname;
+        }else{
+            return fullname($row);
+        }
     }
 
     /**
