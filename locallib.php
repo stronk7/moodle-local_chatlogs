@@ -193,7 +193,8 @@ class local_chatlogs_conversation {
         if ($previous) {
             $url = new moodle_url('/local/chatlogs/index.php',
                 array('conversationid' => $previous->conversationid));
-            $this->previouslink = html_writer::link($url, '&#x25C4; '.$previous->messagecount.' messages');
+            $this->previouslink = html_writer::link($url, '&#x25C4; '.$previous->messagecount.' messages',
+                array('class' => 'previouslink'));
         }
 
         return $this->previouslink;
@@ -219,7 +220,8 @@ class local_chatlogs_conversation {
 
         if ($next) {
             $url = new moodle_url('/local/chatlogs/index.php', array('conversationid' => $next->conversationid));
-            $this->nextlink = html_writer::link($url, $next->messagecount.' messages &#x25BA;');
+            $this->nextlink = html_writer::link($url, $next->messagecount.' messages &#x25BA;',
+                array('class' => 'nextlink'));
         }
 
         return $this->nextlink;
@@ -277,7 +279,10 @@ class local_chatlogs_conversation {
      * @return the html representation of a conversation
      */
     public function render() {
-        global $DB, $OUTPUT;
+        global $DB, $OUTPUT, $PAGE;
+
+        // adds a handy left/right arrow shortcut
+        $PAGE->requires->yui_module('moodle-local_chatlogs-keyboard', 'M.local_chatlogs.init_keyboard');
 
         $sql = 'SELECT m.id AS messageid, m.fromemail, m.fromplace, m.timesent,
                 m.message, p.nickname, p.userid, '.user_picture::fields('u').
