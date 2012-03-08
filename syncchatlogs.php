@@ -30,14 +30,11 @@ if (isset($_SERVER['REMOTE_ADDR'])) {
 
 $CONVERSATIONGAP = 30 * 60;   // 30 minutes gap
 
-$dbhost = '127.0.0.1';
-$dbuser = 'hqtunnel';
-$dbpassword = 'moodlehq';
-$dbname = 'logbot';
-$dbprefix = '';
+// include config for DB details:
+require('sync-config.php');
 
 $chatdb = moodle_database::get_driver_instance('mysqli', 'native');
-if (!$chatdb->connect($dbhost, $dbuser, $dbpassword, $dbname, $dbprefix, array('dbport'=>3307))) {
+if (!$chatdb->connect($SYNC_DBHOST, $SYNC_DBUSER, $SYNC_DBPASSWORD, $SYNC_DBNAME, $SYNC_DBPREFIX, array('dbport'=> $SYNC_DBPORT))) {
     throw new dbtransfer_exception('notargetconectexception', null, "$CFG->wwwroot/mod/cvsadmin/syncchatlogs.php");
 }
 
