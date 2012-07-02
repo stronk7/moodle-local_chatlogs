@@ -44,10 +44,6 @@ such as <a href="http://www.pidgin.im/">Pidgin</a>, <a href="http://www.miranda-
 <a href="http://www.adiumx.com">Adium</a> or even <a href="http://www.apple.com/macosx/features/ichat.html">iChat</a> on OS X.
 You can use any Jabber account you may have.  For example, a Gmail account will work fine (although there is a known
 problem with Google accounts that will scramble your recent history a bit when you first connect to the chat room).</p>
-<p>If you need a new Jabber account, developers are welcome to create one for themselves in the moodle.org domain
-using the create account feature in your Jabber client.  If you have trouble connecting, you may have explicitly
-specify the connect server as <strong>talk.moodle.org</strong>, port 5222.  You can also use port 80 or 443
-if you are behind a firewall.</p>
 <?php 
 echo $OUTPUT->box_end();
 echo $OUTPUT->footer();
