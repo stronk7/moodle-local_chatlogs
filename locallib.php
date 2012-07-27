@@ -371,6 +371,10 @@ class local_chatlogs_search_table extends table_sql {
         $this->searchterm = $searchterm;
         $this->set_attribute('class', 'devchat');
 
+        if (!isset($this->sql)) {
+            $this->sql = new stdClass();
+        }
+
         $this->sql->fields = 'm.id AS messageid, m.fromemail, m.fromplace, m.timesent,
                               m.message, m.conversationid, p.nickname,
                               p.userid, '.user_picture::fields('u');
