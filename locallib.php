@@ -43,6 +43,9 @@ class local_chatlogs_converations_table extends table_sql {
     public function __construct($uniqueid) {
         parent::__construct($uniqueid);
         $this->set_attribute('class', 'devchatslist generaltable generalbox');
+        if (!isset($this->sql)) {
+            $this->sql = new stdClass();
+        }
         $this->sql->fields = 'conversationid, messagecount, timestart, timeend, (timestart - timeend) AS duration';
         $this->sql->from = '{local_chatlogs_conversations}';
         $this->sql->where = 'messagecount > 0';
