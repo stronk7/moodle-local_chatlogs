@@ -72,7 +72,7 @@ class local_chatlogs_converations_table extends table_sql {
                 FROM {local_chatlogs_messages} m
                 JOIN {local_chatlogs_participants} p
                     ON m.fromemail = p.fromemail
-                WHERE m.conversationid = ? GROUP BY p.nickname';
+                WHERE m.conversationid = ? GROUP BY p.fromemail, p.nickname';
         $participants = $DB->get_records_sql_menu($sql, array($row->conversationid));
         $participants = implode(', ', $participants);
 
