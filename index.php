@@ -30,7 +30,12 @@ $searchterm = optional_param('q', '', PARAM_TEXT);
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_url(new moodle_url('/local/chatlogs/index.php'));
+
+$pageurl = new moodle_url('/local/chatlogs/index.php');
+if (!empty($conversationid)) {
+    $pageurl->param('conversationid', $conversationid);
+}
+$PAGE->set_url($pageurl);
 
 $PAGE->set_title(get_string('pluginname', 'local_chatlogs'));
 $PAGE->set_heading(get_string('pluginname', 'local_chatlogs'));
