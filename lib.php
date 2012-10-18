@@ -59,7 +59,7 @@ function local_chatlogs_can_access() {
  * @param global_navigation $navigation the navigation tree instance
  * @category navigation
  */
-function chatlogs_extends_navigation(global_navigation $navigation) {
+function local_chatlogs_extends_navigation(global_navigation $navigation) {
     global $SESSION;
 
     // horrible hack to prevent additional db queries on every page
