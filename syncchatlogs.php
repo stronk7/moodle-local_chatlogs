@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 define('CLI_SCRIPT', true);
-require('../../config.php');
+require(__DIR__.'/../../config.php');
 
 // Only php cli allowed
 if (isset($_SERVER['REMOTE_ADDR'])) {
