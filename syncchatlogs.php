@@ -53,7 +53,7 @@ if (!isset($ismoodlebot)) {
 $count = 0;
 $convid = 0;
 
-if ($rs = $chatdb->get_recordset_sql('SELECT * FROM MucConversationLog WHERE (logTime > ?) ORDER BY logTime ASC', array($lastmessage->timesent))) {
+if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime > ?) ORDER BY logTime ASC", array($lastmessage->timesent))) {
 
     foreach ($rs as $data) {
         if (empty($data->body)) {    // Bogus message
