@@ -68,11 +68,15 @@ class local_chatlogs_converations_table extends table_sql {
     public function col_participants($row) {
         global $DB;
 
-        $sql = 'SELECT p.fromemail, p.nickname
+        $userstring = $DB->sql_concat('u.firstname', "' '", 'u.lastname');
+
+        $sql = 'SELECT p.fromemail, COALESCE('.$userstring.', p.nickname)
                 FROM {local_chatlogs_messages} m
                 JOIN {local_chatlogs_participants} p
                     ON m.fromemail = p.fromemail
-                WHERE m.conversationid = ? GROUP BY p.fromemail, p.nickname';
+                LEFT JOIN {user} u ON p.userid = u.id
+                WHERE m.conversationid = ?
+               GROUP BY p.fromemail, p.nickname, u.firstname, u.lastname';
         $participants = $DB->get_records_sql_menu($sql, array($row->conversationid));
         $participants = implode(', ', $participants);
 
