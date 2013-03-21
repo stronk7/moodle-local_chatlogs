@@ -306,7 +306,7 @@ class local_chatlogs_conversation {
 
         $table = new html_table();
         $table->attributes['class'] = 'devchat';
-        $footer->wrap  = array('nowrap', 'nowrap', '');
+        $table->wrap  = array('nowrap', 'nowrap', '');
 
         foreach ($rs as $message) {
             $time = userdate($message->timesent, "%I:%M:%S %P");
