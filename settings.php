@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/local/chatlogs/adminlib.php');
 
-if (has_capability('moodle/site:config', get_system_context())) {
+if (has_capability('moodle/site:config', context_system::instance())) {
     $temp = new admin_settingpage('local_chatlogs_settings', get_string('pluginname', 'local_chatlogs'), 'moodle/site:config');
 
     $temp->add(new local_chatlogs_cohort_selector('local_chatlogs/cohortid', get_string('developercohort', 'local_chatlogs'),
