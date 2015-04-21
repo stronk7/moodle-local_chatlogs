@@ -56,10 +56,11 @@ function local_chatlogs_can_access() {
 /**
  * Puts chatlogs into the global navigation tree.
  *
+ * @since Moodle 2.9
  * @param global_navigation $navigation the navigation tree instance
  * @category navigation
  */
-function local_chatlogs_extends_navigation(global_navigation $navigation) {
+function local_chatlogs_extend_navigation(global_navigation $navigation) {
     global $SESSION;
 
     // horrible hack to prevent additional db queries on every page
@@ -80,4 +81,17 @@ function local_chatlogs_extends_navigation(global_navigation $navigation) {
                 new moodle_url('/local/chatlogs/admin/jabber-aliases.php'));
         }
     }
+}
+
+/**
+ * Puts chatlogs into the global navigation tree.
+ *
+ * Keeping this function here for Moodle 2.8 and lower versions.
+ *
+ * @todo Remove this function when this plugin requires Moodle 2.9
+ * @param global_navigation $navigation the navigation tree instance
+ * @category navigation
+ */
+function local_chatlogs_extends_navigation(global_navigation $navigation) {
+    return local_chatlogs_extend_navigation($navigation);
 }
