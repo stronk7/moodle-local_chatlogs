@@ -36,6 +36,7 @@ require_once($CFG->dirroot.'/filter/urltolink/filter.php');
  */
 class urlfilter extends \filter_urltolink {
     public function __construct() {
+        self::$globalconfig = new \stdClass();
         self::$globalconfig->embedimages = false;
     }
     public function convert_urls_into_links(&$text) {
