@@ -169,12 +169,19 @@ class local_chatlogs_conversation {
     private $nextlink = null;
 
     /**
+     * Filter to do url to link convresation
+     * @var local_chatlogs_filter
+     * */
+    private $urlfilter = null;
+
+    /**
      * Creates a conversation object based on converationid
      * @param int $conversationid id of conversation to creaet
      */
     public function __construct($conversationid) {
         global $DB;
 
+        $this->urlfilter = new local_chatlogs\urlfilter();
         $this->conversation = $DB->get_record('local_chatlogs_conversations',
             array('conversationid' => $conversationid), '*', MUST_EXIST);
     }
@@ -331,7 +338,10 @@ class local_chatlogs_conversation {
                 $message->message = substr(trim($message->message), 4);
             }
 
-            $messagecell->text.= format_text($message->message, FORMAT_MOODLE, array('para'=>false));
+            // This is a bit of a hack to make the format plain, but have clickable links..
+            $formatedmessage = format_text($message->message, FORMAT_PLAIN, array('para'=>false));
+            $this->urlfilter->convert_urls_into_links($formatedmessage);
+            $messagecell->text.= $formatedmessage;
 
             $imagecell = new html_table_cell();
             if (!empty($message->userid)) {

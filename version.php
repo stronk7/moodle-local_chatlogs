@@ -24,6 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version  = 2012022903;
-$plugin->requires = 2011070100;
+$plugin->version  = 2015061900;
+$plugin->requires = 2015050500;
 $plugin->component = 'local_chatlogs';
+$plugin->dependencies = array(
+    'filter_urltolink' => 2015051100,
+);
