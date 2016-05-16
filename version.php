@@ -29,3 +29,6 @@ $plugin->release = '3.1.0';
 $plugin->version = 2016051300;
 $plugin->requires = 2016051000;
 $plugin->maturity = MATURITY_STABLE;
+$plugin->dependencies = array(
+    'filter_urltolink' => 2015051100,
+);
