@@ -58,7 +58,7 @@ class local_chatlogs_external extends external_api {
         self::validate_context($context);
         local_chatlogs_require_capability();
 
-        return ['conversations' => $DB->get_records('local_chatlogs_conversations', [], 'timeend DESC',
+        return ['conversations' => $DB->get_records_select('local_chatlogs_conversations', 'messagecount > 0', [], 'timeend DESC',
           'conversationid, timestart, timeend, messagecount', $params['page'], $params['perpage'])];
     }
 
