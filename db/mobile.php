@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of the Certificate module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,20 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Chatlogs mobile
  *
  * @package    local_chatlogs
- * @copyright  Dan Poltawski
+ * @copyright  2016 Dan Poltawski <dan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die;
-
-$plugin->component = 'local_chatlogs';
-$plugin->release = '3.2.0';
-$plugin->version = 2017012902;
-$plugin->requires = 2016112500;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array(
-    'filter_urltolink' => 2015051100,
+$addons = array(
+    'local_chatlogs' => array()
 );
