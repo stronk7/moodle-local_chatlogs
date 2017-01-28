@@ -22,6 +22,10 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['allconversations'] = 'All conversations';
+$string['apisecret'] = 'API Secret';
+$string['apisecretdescription'] = 'The shared secret needed to access the API.';
+$string['apiurl'] = 'API URL';
+$string['apiurldescription'] = 'The url to the telegram logbot api to retrieve room messages. When set this will stop the existing direct direct DB sync from operating';
 $string['chatlogs:manage'] = 'Manage the developer chat logs plugin';
 $string['chatlogs:view'] = 'View developer chat logs irrespective of cohort membership';
 $string['chatlogs:viewifdeveloper'] = 'View developer chat logs if in developer cohort';
@@ -36,4 +40,5 @@ $string['jabberfullname'] = 'Jabber Nick';
 $string['pluginname'] = 'Developer chat';
 $string['searchchat'] = 'Search chat history';
 $string['searchmessages'] = 'Search messages';
+$string['syncchatlogs'] = 'Sync chatlogs';
 $string['viewchatlogs'] = 'View chat logs';

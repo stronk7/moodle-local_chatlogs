@@ -15,20 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Definition of partner block tasks
  *
- * @package    local_chatlogs
- * @copyright  Dan Poltawski
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_chatlogs
+ * @copyright 2017 Dan Poltawski <dan@moodle.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_chatlogs';
-$plugin->release = '3.2.0';
-$plugin->version = 2017012900;
-$plugin->requires = 2016112500;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array(
-    'filter_urltolink' => 2015051100,
+$tasks = array(
+    array(
+        'classname' => 'local_chatlogs\task\sync_chatlogs',
+        'blocking' => 0,
+        'minute' => '*/5',
+        'hour' => '*',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    )
 );
