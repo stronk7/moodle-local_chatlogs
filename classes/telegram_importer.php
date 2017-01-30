@@ -84,7 +84,21 @@ class telegram_importer {
             $conversation = $this->get_or_create_conversation($message, $lastmessage);
 
             $message->conversationid = $conversation->conversationid;
-            $message->id = $DB->insert_record('local_chatlogs_messages', $message);
+            try {
+                $message->id = $DB->insert_record('local_chatlogs_messages', $message);
+            } catch (\dml_exception $e) {
+                // Specific horrible handling to work around utf-8 multibyte problems
+                // with mysql (emojis..) MDL-48228.
+                if (strpos($e->error, 'Incorrect string value:') === false) {
+                    // Different error. Throw.
+                    throw $e;
+                }
+                // Ascii is better than nothing, right?
+                $message->message = \core_text::convert($message->message, 'utf-8', 'ascii');
+                $message->fromnick = \core_text::convert($message->fromnick, 'utf-8', 'ascii');
+                // Try again..
+                $message->id = $DB->insert_record('local_chatlogs_messages', $message);
+            }
             $this->record_partcipant($message);
 
             $lastmessage = $message;

@@ -142,6 +142,23 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
         // 1 extra participant.
         $this->assertSame(2, $DB->count_records('local_chatlogs_participants'));
     }
+
+    public function test_problematic_mysql_emojis() {
+        global $DB;
+        $this->resetAfterTest();
+
+        // Run initial import of 2 messages.
+        $importer = new local_chatlogs_testable_telegram_importer();
+        $importer->set_mock_response([
+            ['username' => 'davidm', 'fullname' => 'DavidMonllao', 'message' => '👍', 'timestamp' => '2017-01-29T12:31:37.601Z'],
+        ]);
+
+        // To messages imported.
+        $importedcount = $importer->import();
+        $this->assertSame(1, $importedcount);
+        $this->assertSame(1, $DB->count_records('local_chatlogs_messages'));
+    }
+
 }
 
 /**
