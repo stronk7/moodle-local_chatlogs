@@ -93,9 +93,9 @@ class telegram_importer {
                     // Different error. Throw.
                     throw $e;
                 }
-                // Ascii is better than nothing, right?
-                $message->message = \core_text::convert($message->message, 'utf-8', 'ascii');
-                $message->fromnick = \core_text::convert($message->fromnick, 'utf-8', 'ascii');
+                // Replace the problematic 4-byte utf-8 chars.
+                $message->message = self::replace4byte($message->message, '�');
+                $message->fromnick = self::replace4byte($message->fromnick, '�');
                 // Try again..
                 $message->id = $DB->insert_record('local_chatlogs_messages', $message);
             }
@@ -109,6 +109,23 @@ class telegram_importer {
         // it's worth it (https://github.com/moodlehq/moodle-local_chatlogs/pull/8).
         $transaction->allow_commit();
         return count($remotemessages);
+    }
+
+    /**
+     * Utility to strip probematic 4-byte utf8 chars for use in MDL-48228 workaround.
+     *
+     * Thanks http://stackoverflow.com/a/16496799
+     *
+     * @param string $string to strip 4-byte utf8 count_chars
+     * @param string $replacement
+     * @return string without the 4-byte utf8 chars
+     */
+    protected static function replace4byte($string, $replacement = '') {
+        return preg_replace('%(?:
+            \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+            | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+            | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+        )%xs', $replacement, $string);
     }
 
     /**
