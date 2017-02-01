@@ -34,16 +34,19 @@ $PAGE->set_title(get_string('info', 'local_chatlogs'));
 $PAGE->set_heading(get_string('info', 'local_chatlogs'));
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('info', 'local_chatlogs'));
-echo $OUTPUT->box_start();
+echo $OUTPUT->heading('Moodle developers chat');
+echo $OUTPUT->box_start('text-center lead');
 ?>
-<p>Our Jabber chat room can be found at <strong>developers@conference.moodle.org</strong>. Currently it is restricted to
-developers who have commited code to Moodle. Please do not publish this address otherwise we'll have to put a password on it.
-Logs of these chats can be found in the past conversations link.</p> <p>You can join in using any Jabber-compatible client,
-such as <a href="http://www.pidgin.im/">Pidgin</a>, <a href="http://www.miranda-im.org/">Miranda</a>,
-<a href="http://www.adiumx.com">Adium</a> or even <a href="http://www.apple.com/macosx/features/ichat.html">iChat</a> on OS X.
-You can use any Jabber account you may have.  For example, a Gmail account will work fine (although there is a known
-problem with Google accounts that will scramble your recent history a bit when you first connect to the chat room).</p>
-<?php 
+
+<p>Historically, Moodle developers used a Jabber chat room for synchronous
+discussions. Since February 1st 2017, the chat has been moved to <a
+href="https://telegram.org/">Telegram</a>. Developers are encouraged to join
+the chat at <a href="https://telegram.me/moodledev">telegram.me/moodledev</a>.</p>
+
+<hr />
+
+<?php
+echo $OUTPUT->pix_icon('telegram', 'Moodle dev and Telegram logos', 'local_chatlogs',
+    ['width' => 118, 'class' => 'img-responsive']);
 echo $OUTPUT->box_end();
 echo $OUTPUT->footer();
