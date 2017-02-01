@@ -32,5 +32,13 @@ if (has_capability('moodle/site:config', context_system::instance())) {
     $temp->add(new local_chatlogs_cohort_selector('local_chatlogs/cohortid', get_string('developercohort', 'local_chatlogs'),
         get_string('developercohortdescription', 'local_chatlogs'), 0, null));
 
+    $temp->add(new admin_setting_configtext('local_chatlogs/apiurl', new lang_string('apiurl', 'local_chatlogs'),
+        new lang_string('apiurldescription', 'local_chatlogs'), '', PARAM_URL));
+
+    $temp->add(new admin_setting_configpasswordunmask('local_chatlogs/apisecret',
+        new lang_string('apisecret', 'local_chatlogs'),
+        new lang_string('apisecretdescription', 'local_chatlogs'), ''));
+
+
     $ADMIN->add('localplugins', $temp);
 }

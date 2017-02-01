@@ -27,6 +27,10 @@ if (isset($_SERVER['REMOTE_ADDR'])) {
     }
 }
 
+$apiurl = get_config('local_chatlogs', 'apiurl');
+if (!empty($apiurl)) {
+    die("local_chatlogs/apiurl is set, please use the scheduled task instead.\n");
+}
 
 $CONVERSATIONGAP = 30 * 60;   // 30 minutes gap
 
