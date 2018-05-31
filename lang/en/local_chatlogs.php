@@ -18,9 +18,13 @@
  * Lang file for local_chatlogs plugin
  *
  * @package     local_chatlogs
+ * @category    string
  * @copyright   2012 Dan Poltawski <dan@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 $string['allconversations'] = 'All conversations';
 $string['apisecret'] = 'API Secret';
 $string['apisecretdescription'] = 'The shared secret needed to access the API.';
@@ -38,6 +42,17 @@ $string['jabberaliasesassign'] = 'Assign user';
 $string['jabberid'] = 'ID';
 $string['jabberfullname'] = 'Nick';
 $string['pluginname'] = 'Developer chat';
+$string['privacy:metadata:db:messages'] = 'Stores copies of developer chat discussions';
+$string['privacy:metadata:db:messages:conversationid'] = 'Internal identifier of the conversation';
+$string['privacy:metadata:db:messages:fromemail'] = 'Email identifier of the user';
+$string['privacy:metadata:db:messages:fromnick'] = 'User\'s nickname';
+$string['privacy:metadata:db:messages:fromplace'] = 'User\'s place';
+$string['privacy:metadata:db:messages:message'] = 'Chat message contents';
+$string['privacy:metadata:db:messages:timejava'] = 'Timestamp of the message in miliseconds since the start of UNIX epoch';
+$string['privacy:metadata:db:messages:timesent'] = 'Timestamp of the message in seconds since the start of UNIX epoch';
+$string['privacy:metadata:db:participants'] = 'Holds all known aliases of Moodle users';
+$string['privacy:metadata:db:participants:fromemail'] = 'Email address';
+$string['privacy:metadata:db:participants:nickname'] = 'Nickname';
 $string['searchchat'] = 'Search chat history';
 $string['searchmessages'] = 'Search messages';
 $string['syncchatlogs'] = 'Sync chatlogs';
