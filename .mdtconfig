@@ -1,4 +1,5 @@
 MDTSITE=moodle.org
+MDTVERSION=3.6
 MDTCOMPONENT=local_chatlogs
 MDTRELPATH=local/chatlogs/
 MDTEXPORT=origin/master
