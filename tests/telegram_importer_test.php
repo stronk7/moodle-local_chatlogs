@@ -195,7 +195,7 @@ class local_chatlogs_testable_telegram_importer extends local_chatlogs\telegram_
             $resp = array_filter($this->mockresponse, function ($row) use($afterdate) {
                 return new DateTime($row->timestamp) > $afterdate;
             });
-            return json_encode($resp);
+            return json_encode(array_values($resp));
         }
 
         return json_encode($this->mockresponse);
