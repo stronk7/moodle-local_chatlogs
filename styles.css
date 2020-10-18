@@ -8,7 +8,7 @@
 }
 
 .path-local-chatlogs table.devchat td {
-    border: 0px;
+    border: 0;
 }
 
 .path-local-chatlogs table.devchat .userinfo {
@@ -24,12 +24,12 @@
     display: block;
     padding: 8px;
     background-color: #eaeaea;
-    border-radius: 0px 5px 5px 5px;
+    border-radius: 0 5px 5px 5px;
     margin-bottom: 15px;
 }
 
 .path-local-chatlogs table.devchat td.usersays {
-    background: #ffffff url([[pix:local_chatlogs|speak]]) no-repeat right top;
+    background: #fff url([[pix:local_chatlogs|speak]]) no-repeat right top;
 }
 
 .path-local-chatlogs table.devchat td.userinfo {

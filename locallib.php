@@ -187,7 +187,7 @@ class local_chatlogs_conversation {
     }
 
     /**
-     * Get a link to the previous conversation 
+     * Get a link to the previous conversation
      *
      * @return string the html of previous converation
      */
@@ -215,7 +215,7 @@ class local_chatlogs_conversation {
     }
 
     /**
-     * Get a link to the next conversation 
+     * Get a link to the next conversation
      *
      * @return string the html of next converation
      */
@@ -295,7 +295,7 @@ class local_chatlogs_conversation {
     public function render() {
         global $DB, $OUTPUT, $PAGE;
 
-        // adds a handy left/right arrow shortcut
+        // Adds a handy left/right arrow shortcut.
         $PAGE->requires->yui_module('moodle-local_chatlogs-keyboard', 'M.local_chatlogs.init_keyboard');
 
         $sql = 'SELECT m.id AS messageid, m.fromemail, m.fromplace, m.timesent,
@@ -323,10 +323,10 @@ class local_chatlogs_conversation {
             $namecell->attributes['class'] = 'userinfo usersays';
             if (!empty($message->userid)) {
                 $namecell->text = fullname($message) . html_writer::empty_tag('br');
-            }else{
+            } else {
                 $namecell->text = $message->nickname . html_writer::empty_tag('br');
             }
-            $namecell->text.= html_writer::link('#c'.$message->messageid, $time,  array('class' => 'jabbertime'));
+            $namecell->text .= html_writer::link('#c'.$message->messageid, $time,  array('class' => 'jabbertime'));
 
             $messagecell = new html_table_cell();
             $messagecell->attributes['class'] = 'talkmessage';
@@ -334,14 +334,14 @@ class local_chatlogs_conversation {
             if (trim(substr($message->message, 0, 4)) == '/me') {
                 $namecell->attributes['class'] = 'userinfo useractions';
                 $messagecell->attributes['class'] = 'chataction';
-                $messagecell->text.= $message->nickname.' ';
+                $messagecell->text .= $message->nickname.' ';
                 $message->message = substr(trim($message->message), 4);
             }
 
             // This is a bit of a hack to make the format plain, but have clickable links..
-            $formatedmessage = format_text($message->message, FORMAT_PLAIN, array('para'=>false));
+            $formatedmessage = format_text($message->message, FORMAT_PLAIN, array('para' => false));
             $this->urlfilter->convert_urls_into_links($formatedmessage);
-            $messagecell->text.= $formatedmessage;
+            $messagecell->text .= $formatedmessage;
 
             $imagecell = new html_table_cell();
             if (!empty($message->userid)) {
@@ -401,7 +401,6 @@ class local_chatlogs_search_table extends table_sql {
         $this->sql->where = $DB->sql_like('m.message', ':search');
         $this->sql->params = array('search' => '%'.$searchterm.'%');
 
-
         $this->define_columns(array('timesent', 'userpic', 'userid', 'message'));
         $this->define_headers(array('Timesent', '', 'User', 'Message'));
         $this->column_class('timesent', 'userinfo');
@@ -436,7 +435,7 @@ class local_chatlogs_search_table extends table_sql {
     public function col_userid($row) {
         if (empty($row->userid)) {
             return $row->nickname;
-        }else{
+        } else {
             return fullname($row);
         }
     }
@@ -465,8 +464,8 @@ class local_chatlogs_search_table extends table_sql {
         $text = '';
 
         if (trim(substr($row->message, 0, 4)) == '/me') {
-            // convert /me
-            $text.= $row->nickname.' ';
+            // Convert /me.
+            $text .= $row->nickname.' ';
             $row->message = substr(trim($row->message), 4);
         }
 
@@ -487,13 +486,13 @@ class local_chatlogs_search_table extends table_sql {
 
         $url = new moodle_url('/local/chatlogs/index.php');
 
-        $o.= html_writer::start_tag('div', array('class' => 'searchform'));
-        $o.= html_writer::start_tag('form', array('method' => 'get', 'action' => $url->out()));
-        $o.= html_writer::empty_tag('input', array('type' => 'text', 'name' => 'q',
+        $o .= html_writer::start_tag('div', array('class' => 'searchform'));
+        $o .= html_writer::start_tag('form', array('method' => 'get', 'action' => $url->out()));
+        $o .= html_writer::empty_tag('input', array('type' => 'text', 'name' => 'q',
              'value' => $searchtext, 'maxlength' => 100, 'size' => 20));
-        $o.= html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('searchmessages', 'local_chatlogs')));
-        $o.= html_writer::end_tag('form');
-        $o.= html_writer::end_tag('div');
+        $o .= html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('searchmessages', 'local_chatlogs')));
+        $o .= html_writer::end_tag('form');
+        $o .= html_writer::end_tag('div');
 
         return $o;
     }
