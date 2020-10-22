@@ -35,14 +35,14 @@ function local_chatlogs_can_access() {
     $context = context_system::instance();
 
     if (has_capability('local/chatlogs:view', $context)) {
-        // if user has the view permission they are allowed to view then chatlogs
+        // If user has the view permission they are allowed to view then chatlogs.
         return true;
     }
 
     if (has_capability('local/chatlogs:viewifdeveloper', $context)) {
         if ($cohortid = get_config('local_chatlogs', 'cohortid')) {
             if ($cohortid > 0) {
-                // Only allowed to view if in developer cohort
+                // Only allowed to view if in developer cohort.
                 if ($DB->get_record('cohort_members', array('cohortid' => $cohortid, 'userid' => $USER->id))) {
                     return true;
                 }
@@ -63,7 +63,7 @@ function local_chatlogs_can_access() {
 function local_chatlogs_extend_navigation(global_navigation $navigation) {
     global $SESSION;
 
-    // horrible hack to prevent additional db queries on every page
+    // Horrible hack to prevent additional db queries on every page.
     if (isloggedin() && !isguestuser() && !property_exists($SESSION, 'show_devchat_nav')) {
         $SESSION->show_devchat_nav = (bool) local_chatlogs_can_access();
     }

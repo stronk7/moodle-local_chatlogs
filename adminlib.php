@@ -39,7 +39,7 @@ class local_chatlogs_cohort_selector extends admin_setting_configselect {
 
         $this->choices = array(0 => get_string('none'));
         if ($cohorts = $DB->get_records_menu('cohort', array('contextid' => context_system::instance()->id), 'name', 'id, name')) {
-            foreach($cohorts as $key => $value){
+            foreach ($cohorts as $key => $value) {
                 $this->choices[$key] = $value;
             }
         }

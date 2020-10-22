@@ -38,7 +38,7 @@ function xmldb_local_chatlogs_install() {
     if ($dbman->table_exists('cvsadmin_talk_conversations') &&
         $dbman->table_exists('cvsadmin_talk_messages') &&
         $dbman->table_exists('cvsadmin_talk_participants')) {
-        // import old data from cvsadmin module..
+        // Import old data from cvsadmin module..
         $DB->execute('INSERT INTO {local_chatlogs_conversations} (SELECT * FROM {cvsadmin_talk_conversations})');
         $DB->execute('INSERT INTO {local_chatlogs_messages} (SELECT * FROM {cvsadmin_talk_messages})');
         $DB->execute('INSERT INTO {local_chatlogs_participants} (SELECT * FROM {cvsadmin_talk_participants})');

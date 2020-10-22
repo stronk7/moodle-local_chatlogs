@@ -56,8 +56,10 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
         // Run initial import of 2 messages.
         $importer = new local_chatlogs_testable_telegram_importer();
         $importer->set_mock_response([
-            ['username' => 'danpoltawski', 'fullname' => 'Dan P', 'message' => 'First message from Dan', 'timestamp' => '2017-01-29T12:30:37.601Z'],
-            ['username' => 'danpoltawski', 'fullname' => 'Dan P', 'message' => 'Second message from Dan', 'timestamp' => '2017-01-29T12:31:37.601Z'],
+            ['username' => 'danpoltawski', 'fullname' => 'Dan P',
+                'message' => 'First message from Dan', 'timestamp' => '2017-01-29T12:30:37.601Z'],
+            ['username' => 'danpoltawski', 'fullname' => 'Dan P',
+                'message' => 'Second message from Dan', 'timestamp' => '2017-01-29T12:31:37.601Z'],
         ]);
 
         // To messages imported.
@@ -70,9 +72,12 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
 
         // Simulate a message added by Joe Bloggs.
         $importer->set_mock_response([
-            ['username' => 'danpoltawski', 'fullname' => 'Dan P', 'message' => 'First message from Dan', 'timestamp' => '2017-01-29T12:30:37.601Z'],
-            ['username' => 'danpoltawski', 'fullname' => 'Dan P', 'message' => 'Second message from Dan', 'timestamp' => '2017-01-29T12:31:37.601Z'],
-            ['username' => 'joeblogs', 'fullname' => 'Dan P', 'message' => 'Response from Joe', 'timestamp' => '2017-01-29T12:32:37.601Z'],
+            ['username' => 'danpoltawski', 'fullname' => 'Dan P',
+                'message' => 'First message from Dan', 'timestamp' => '2017-01-29T12:30:37.601Z'],
+            ['username' => 'danpoltawski', 'fullname' => 'Dan P',
+                'message' => 'Second message from Dan', 'timestamp' => '2017-01-29T12:31:37.601Z'],
+            ['username' => 'joeblogs', 'fullname' => 'Dan P',
+                'message' => 'Response from Joe', 'timestamp' => '2017-01-29T12:32:37.601Z'],
         ]);
 
         // Now we've got an extra message to import.
@@ -86,10 +91,14 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
 
         // Simulate a chat message sent the next day, this should create a new conversation record.
         $importer->set_mock_response([
-            ['username' => 'danpoltawski', 'fullname' => 'Dan P', 'message' => 'First message from Dan', 'timestamp' => '2017-01-29T12:30:37.601Z'],
-            ['username' => 'danpoltawski', 'fullname' => 'Dan P', 'message' => 'Second message from Dan', 'timestamp' => '2017-01-29T12:31:37.601Z'],
-            ['username' => 'joeblogs', 'fullname' => 'Joe B', 'message' => 'Response from Joe', 'timestamp' => '2017-01-29T12:32:37.601Z'],
-            ['username' => 'danpoltawski', 'fullname' => 'Dan P', 'message' => 'Sorry Joe!', 'timestamp' => '2017-01-30T12:32:37.601Z'],
+            ['username' => 'danpoltawski', 'fullname' => 'Dan P',
+                'message' => 'First message from Dan', 'timestamp' => '2017-01-29T12:30:37.601Z'],
+            ['username' => 'danpoltawski', 'fullname' => 'Dan P',
+                'message' => 'Second message from Dan', 'timestamp' => '2017-01-29T12:31:37.601Z'],
+            ['username' => 'joeblogs', 'fullname' => 'Joe B',
+                'message' => 'Response from Joe', 'timestamp' => '2017-01-29T12:32:37.601Z'],
+            ['username' => 'danpoltawski', 'fullname' => 'Dan P',
+                'message' => 'Sorry Joe!', 'timestamp' => '2017-01-30T12:32:37.601Z'],
         ]);
 
         $importedcount = $importer->import();
@@ -110,9 +119,12 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
         ];
         $DB->insert_records('local_chatlogs_conversations', $conversations);
         $messages = [
-            ['conversationid' => '1', 'fromemail' => 'danpoltawski@telegram.me', 'timesent' => '1358138860', 'timejava' => '1358138860000', 'message' => 'Testing'],
-            ['conversationid' => '1', 'fromemail' => 'danpoltawski@telegram.me', 'timesent' => '1358138958', 'timejava' => '1358138958000', 'message' => 'Testing'],
-            ['conversationid' => '2', 'fromemail' => 'danpoltawski@telegram.me', 'timesent' => '1358142505', 'timejava' => '1358142505000', 'message' => '123'],
+            ['conversationid' => '1', 'fromemail' => 'danpoltawski@telegram.me',
+                'timesent' => '1358138860', 'timejava' => '1358138860000', 'message' => 'Testing'],
+            ['conversationid' => '1', 'fromemail' => 'danpoltawski@telegram.me',
+                'timesent' => '1358138958', 'timejava' => '1358138958000', 'message' => 'Testing'],
+            ['conversationid' => '2', 'fromemail' => 'danpoltawski@telegram.me',
+                'timesent' => '1358142505', 'timejava' => '1358142505000', 'message' => '123'],
         ];
         $DB->insert_records('local_chatlogs_messages', $messages);
 
@@ -128,8 +140,10 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
         // Run import of new 2 messages.
         $importer = new local_chatlogs_testable_telegram_importer();
         $importer->set_mock_response([
-            ['username' => 'danpoltawski', 'fullname' => 'Dan P', 'message' => 'First message from Dan', 'timestamp' => '2017-01-29T12:30:37.601Z'],
-            ['username' => 'bob', 'fullname' => 'Bob', 'message' => 'Message from Bob', 'timestamp' => '2017-01-29T12:31:37.601Z'],
+            ['username' => 'danpoltawski', 'fullname' => 'Dan P',
+                'message' => 'First message from Dan', 'timestamp' => '2017-01-29T12:30:37.601Z'],
+            ['username' => 'bob', 'fullname' => 'Bob',
+                'message' => 'Message from Bob', 'timestamp' => '2017-01-29T12:31:37.601Z'],
         ]);
 
         $importedcount = $importer->import();
@@ -150,7 +164,8 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
         // Run initial import of 2 messages.
         $importer = new local_chatlogs_testable_telegram_importer();
         $importer->set_mock_response([
-            ['username' => 'davidm', 'fullname' => 'DavidMonllao', 'message' => '👍', 'timestamp' => '2017-01-29T12:31:37.601Z'],
+            ['username' => 'davidm', 'fullname' => 'DavidMonllao',
+                'message' => '👍', 'timestamp' => '2017-01-29T12:31:37.601Z'],
         ]);
 
         // To messages imported.

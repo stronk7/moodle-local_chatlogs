@@ -17,7 +17,7 @@
 define('CLI_SCRIPT', true);
 require(__DIR__.'/../../config.php');
 
-// Only php cli allowed
+// Only php cli allowed.
 if (isset($_SERVER['REMOTE_ADDR'])) {
     if ($_SERVER['REMOTE_ADDR'] != "174.123.154.58") {
         print_error('cronerrorclionly', 'admin');
@@ -32,13 +32,17 @@ if (!empty($apiurl)) {
     die("local_chatlogs/apiurl is set, please use the scheduled task instead.\n");
 }
 
-$CONVERSATIONGAP = 30 * 60;   // 30 minutes gap
+$conversationgap = 30 * 60;   // 30 minutes gap.
 
-// include config for DB details:
+// Include config for DB details.
 require('sync-config.php');
 
 $chatdb = moodle_database::get_driver_instance('mysqli', 'native');
+// @codingStandardsIgnoreStart
+// phpcs:disable
 if (!$chatdb->connect($SYNC_DBHOST, $SYNC_DBUSER, $SYNC_DBPASSWORD, $SYNC_DBNAME, $SYNC_DBPREFIX, array('dbport'=> $SYNC_DBPORT))) {
+    // @codingStandardsIgnoreEnd
+    // phpcs:enable
     throw new dbtransfer_exception('notargetconectexception', null, "$CFG->wwwroot/mod/cvsadmin/syncchatlogs.php");
 }
 
@@ -57,10 +61,14 @@ if (!isset($ismoodlebot)) {
 $count = 0;
 $convid = 0;
 
+// @codingStandardsIgnoreStart
+// phpcs:disable
 if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime > ?) ORDER BY logTime ASC", array($lastmessage->timesent))) {
+    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
     foreach ($rs as $data) {
-        if (empty($data->body)) {    // Bogus message
+        if (empty($data->body)) {    // Bogus message.
             continue;
         }
 
@@ -74,11 +82,12 @@ if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime >
         $message->timejava = $data->logtime * 1000;
         $message->message = $data->body;
 
-        // Work out which conversation this is part of and update that
-        if ($message->timesent - $lastmessage->timesent < $CONVERSATIONGAP) {
-            $message->conversationid = $lastmessage->conversationid;   // same
+        // Work out which conversation this is part of and update that.
+        if ($message->timesent - $lastmessage->timesent < $conversationgap) {
+            $message->conversationid = $lastmessage->conversationid;   // Same.
 
-            $conversation = $DB->get_record('local_chatlogs_conversations', array('conversationid' =>$message->conversationid), '*', MUST_EXIST);
+            $conversation = $DB->get_record('local_chatlogs_conversations',
+                array('conversationid' => $message->conversationid), '*', MUST_EXIST);
             $conversation->timeend = $message->timesent;
             $conversation->messagecount = $conversation->messagecount + 1;
             if (!$DB->update_record('local_chatlogs_conversations', $conversation)) {
@@ -87,9 +96,9 @@ if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime >
 
 
         } else {
-            $message->conversationid = $lastmessage->conversationid + 1;   // new
+            $message->conversationid = $lastmessage->conversationid + 1;   // New.
 
-            // Add this new conversation to the conversation table
+            // Add this new conversation to the conversation table.
             $conversation = new object;
             $conversation->conversationid = $message->conversationid;
             $conversation->timestart = $message->timesent;
@@ -108,16 +117,16 @@ if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime >
 
         $count++;
 
-        // Now check that they have a registered name and if not, register them
+        // Now check that they have a registered name and if not, register them.
 
         if (empty($currentparticipant[$message->fromemail])) {
             if (!$participant = $DB->get_record('local_chatlogs_participants', array('fromemail' => $message->fromemail))) {
                 $participant = new object;
                 $participant->fromemail = $message->fromemail;
                 $participant->nickname = $message->fromnick;
-                $DB->insert_record('local_chatlogs_participants', $participant);   // Add them to the list
+                $DB->insert_record('local_chatlogs_participants', $participant);   // Add them to the list.
             }
-            $currentparticipant[$message->fromemail] = true;  // No need to check again today
+            $currentparticipant[$message->fromemail] = true;  // No need to check again today.
         }
 
 
@@ -129,11 +138,13 @@ if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime >
 if (!isset($ismoodlebot)) {
     mtrace("Inserted $count new messages");
 } else {
-    $conversationid = $DB->get_field_sql("SELECT conversationid FROM {local_chatlogs_conversations} ORDER BY conversationid desc LIMIT 1");
-    echo "Synchronised chat logs ($count new messages) - URL: http://moodle.org/local/chatlogs/index.php?conversationid=".$conversationid."\n";
+    $conversationid = $DB->get_field_sql(
+        "SELECT conversationid FROM {local_chatlogs_conversations} ORDER BY conversationid desc LIMIT 1");
+    echo "Synchronised chat logs ($count new messages) - URL: http://moodle.org/local/chatlogs/index.php?conversationid=" .
+        $conversationid."\n";
 }
 
-// Clean up orphan conversations
+// Clean up orphan conversations.
 
 $firstone = true;
 $pushtonext = 0;
@@ -142,9 +153,13 @@ if ($conversations = $DB->get_records('local_chatlogs_conversations', null, 'con
 
     foreach ($conversations as $conversation) {
 
-        if ($pushtonext) {  // Copy those to this
-            $DB->execute("UPDATE {local_chatlogs_messages} SET conversationid = $conversation->conversationid WHERE conversationid = ?", array($pushtonext));
-            $DB->execute("UPDATE {local_chatlogs_conversations} SET messagecount = 0 WHERE conversationid = ?", array($pushtonext));
+        if ($pushtonext) {  // Copy those to this.
+            $DB->execute(
+                "UPDATE {local_chatlogs_messages} SET conversationid = $conversation->conversationid WHERE conversationid = ?",
+                array($pushtonext));
+            $DB->execute(
+                "UPDATE {local_chatlogs_conversations} SET messagecount = 0 WHERE conversationid = ?",
+                array($pushtonext));
             $pushtonext = 0;
         }
 
@@ -154,5 +169,4 @@ if ($conversations = $DB->get_records('local_chatlogs_conversations', null, 'con
 
         $firstone = false;
     }
-
 }

@@ -21,6 +21,12 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('CLI_SCRIPT', true);
+
+require(__DIR__.'/../../../config.php');
+require_once($CFG->dirroot.'/local/chatlogs/locallib.php');
+require_once($CFG->libdir.'/clilib.php');
+
 $usage = "
 Dumps the given conversation to the standard output.
 
@@ -34,12 +40,6 @@ Options:
     -h, --help      Prints this usage information.
 
 ";
-
-define('CLI_SCRIPT', true);
-
-require(__DIR__.'/../../../config.php');
-require_once($CFG->dirroot.'/local/chatlogs/locallib.php');
-require_once($CFG->libdir.'/clilib.php');
 
 list($options, $unrecognized) = cli_get_params(
     array(

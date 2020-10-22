@@ -54,7 +54,7 @@ if ($data = data_submitted()) {
 
 echo $OUTPUT->header();
 
-// get the list of unknown jabber ids
+// Get the list of unknown jabber ids.
 
 $sql = "SELECT fromemail, nickname
           FROM {local_chatlogs_participants}

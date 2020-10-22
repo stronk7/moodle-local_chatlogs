@@ -27,14 +27,14 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    // Ability to view chatlogs irrespective of cohort memebership
+    // Ability to view chatlogs irrespective of cohort memebership.
     'local/chatlogs:view' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'legacy' => array()
     ),
 
-    // Ability to view chatlogs if developer cohort
+    // Ability to view chatlogs if developer cohort.
     'local/chatlogs:viewifdeveloper' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
