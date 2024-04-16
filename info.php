@@ -36,16 +36,10 @@ $PAGE->set_heading(get_string('info', 'local_chatlogs'));
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Moodle developers chat');
 echo $OUTPUT->box_start('text-center lead');
-?>
+echo html_writer::tag('p', get_string('infohistory', 'local_chatlogs'));
 
-<p>Historically, Moodle developers used a Jabber chat room for synchronous
-discussions. Since February 1st 2017, the chat has been moved to <a
-href="https://telegram.org/">Telegram</a>. Developers are encouraged to join
-the chat at <a href="https://telegram.me/moodledev">telegram.me/moodledev</a>.</p>
+echo html_writer::tag('hr', '');
 
-<hr />
-
-<?php
 echo $OUTPUT->pix_icon('telegram', 'Moodle dev and Telegram logos', 'local_chatlogs',
     ['width' => 118, 'class' => 'img-responsive']);
 echo $OUTPUT->box_end();

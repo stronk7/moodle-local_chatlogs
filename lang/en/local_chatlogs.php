@@ -37,6 +37,12 @@ $string['developerconversations'] = 'Chat history';
 $string['developercohort'] = 'Developer cohort';
 $string['developercohortdescription'] = 'Select the cohort which developers are in. Users in this cohort and with the local/chatlogs:viewifdeveloper capability will be able to view the chatlogs';
 $string['info'] = 'Info';
+$string['infohistory'] = 'Historically, Moodle developers used a Jabber chat room for synchronous
+discussions. Since 2017, the chat was moved to <a href="https://telegram.org/">Telegram</a>.
+And later, in 2022, it was decided to move everything to <a href="https://matrix.org/">Matrix</a>.
+Developers are encouraged to join the chat at <a href="https://telegram.me/moodledev">telegram.me/moodledev</a> or
+<a href="https://matrix.to/#/#moodledev:moodle.com">matrix.to/#/#moodledev:moodle.com</a>.
+Both rooms are bridged, so you can use either one.';
 $string['jabberaliases'] = 'Aliases';
 $string['jabberaliasesassign'] = 'Assign user';
 $string['jabberid'] = 'ID';
