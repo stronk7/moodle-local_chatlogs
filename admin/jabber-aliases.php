@@ -64,32 +64,32 @@ $rs = $DB->get_recordset_sql($sql);
 
 $table = new html_table();
 $table->id = 'aliaseseditor';
-$table->head = array(
+$table->head = [
     get_string('jabberfullname', 'local_chatlogs'),
     get_string('jabberid', 'local_chatlogs'),
     get_string('jabberaliasesassign', 'local_chatlogs'),
-);
+];
 
 
 foreach ($rs as $record) {
-    $table->data[] = array(
-        html_writer::tag('div', s($record->nickname), array('class' => 'aliasdata-authorname')),
-        html_writer::tag('div', s($record->fromemail), array('class' => 'aliasdata-authoremail')),
+    $table->data[] = [
+        html_writer::tag('div', s($record->nickname), ['class' => 'aliasdata-authorname']),
+        html_writer::tag('div', s($record->fromemail), ['class' => 'aliasdata-authoremail']),
         html_writer::tag('form',
             html_writer::tag('div',
-                html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'jabbernick', 'value' => $record->nickname)).
-                html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'jabberid', 'value' => $record->fromemail)).
-                html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey())).
-                html_writer::empty_tag('input', array('type' => 'text', 'name' => 'search', 'class' => 'aliasdata-search',
-                    'maxlength' => 100, 'size' => 50)).
-                html_writer::empty_tag('input', array('type' => 'text', 'name' => 'userid', 'class' => 'aliasdata-userid',
-                    'maxlength' => 100, 'size' => 5)).
-                html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('submit'))).
-                html_writer::empty_tag('input', array('type' => 'reset', 'value' => get_string('reset'))).
-                html_writer::tag('span', ' ', array('class' => 'aliasdata-icon'))
+                html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'jabbernick', 'value' => $record->nickname]).
+                html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'jabberid', 'value' => $record->fromemail]).
+                html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]).
+                html_writer::empty_tag('input', ['type' => 'text', 'name' => 'search', 'class' => 'aliasdata-search',
+                    'maxlength' => 100, 'size' => 50]).
+                html_writer::empty_tag('input', ['type' => 'text', 'name' => 'userid', 'class' => 'aliasdata-userid',
+                    'maxlength' => 100, 'size' => 5]).
+                html_writer::empty_tag('input', ['type' => 'submit', 'value' => get_string('submit')]).
+                html_writer::empty_tag('input', ['type' => 'reset', 'value' => get_string('reset')]).
+                html_writer::tag('span', ' ', ['class' => 'aliasdata-icon'])
             ),
-        array('method' => 'post', 'action' => $PAGE->url->out()))
-    );
+        ['method' => 'post', 'action' => $PAGE->url->out()]),
+    ];
 }
 echo html_writer::table($table);
 $rs->close();
@@ -109,7 +109,7 @@ function link_jabberid_to_user($jabberid, $userid) {
         throw new coding_exception('NULL parameter values not allowed here');
     }
 
-    $record = $DB->get_record('local_chatlogs_participants', array('fromemail' => $jabberid));
+    $record = $DB->get_record('local_chatlogs_participants', ['fromemail' => $jabberid]);
 
     if ($record) {
         $record->userid = $userid;

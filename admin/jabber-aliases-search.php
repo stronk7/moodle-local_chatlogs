@@ -44,7 +44,7 @@ header('Content-Type: application/json; charset: utf-8');
 $response = new stdClass();
 $response->status = 'ok';
 $response->query = $query;
-$response->results = array();
+$response->results = [];
 
 if (!empty($query)) {
 
@@ -63,33 +63,33 @@ if (!empty($query)) {
                   FROM {user}
                  WHERE ".$DB->sql_like("firstname", "?", false, false)."
                        AND ".$DB->sql_like("lastname", "?", false, false);
-        $params = array(
+        $params = [
             $DB->sql_like_escape($parts[0]).'%',
-            $DB->sql_like_escape($parts[1]).'%'
-        );
+            $DB->sql_like_escape($parts[1]).'%',
+        ];
     } else {
         $sql = "SELECT id, firstname, lastname, email
                   FROM {user}
                  WHERE ".$DB->sql_like("firstname", "?", false, false)."
                        OR ".$DB->sql_like("lastname", "?", false, false)."
                        OR ".$DB->sql_like("email", "?", false, false);
-        $params = array(
+        $params = [
             '%'.$DB->sql_like_escape($query).'%',
             '%'.$DB->sql_like_escape($query).'%',
-            '%'.$DB->sql_like_escape($query).'%'
-        );
+            '%'.$DB->sql_like_escape($query).'%',
+        ];
     }
 
     $rs = $DB->get_recordset_sql($sql, $params, 0, 10);
 
     foreach ($rs as $r) {
-        $response->results[] = (object)array(
+        $response->results[] = (object)[
             'userid'    => $r->id,
             'firstname' => $r->firstname,
             'lastname'  => $r->lastname,
             'email'     => $r->email,
             'signature' => sprintf('%s <%s>', fullname($r), $r->email),
-        );
+        ];
     }
 
     $rs->close();

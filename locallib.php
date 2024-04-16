@@ -49,10 +49,10 @@ class local_chatlogs_converations_table extends table_sql {
         $this->sql->fields = 'conversationid, messagecount, timestart, timeend, (timestart - timeend) AS duration';
         $this->sql->from = '{local_chatlogs_conversations}';
         $this->sql->where = 'messagecount > 0';
-        $this->sql->params = array();
+        $this->sql->params = [];
 
-        $this->define_columns(array('conversationid', 'participants', 'messagecount', 'timestart', 'timeend', 'duration'));
-        $this->define_headers(array('ID', 'Participants', 'Messages', 'Start', 'End', 'Duration'));
+        $this->define_columns(['conversationid', 'participants', 'messagecount', 'timestart', 'timeend', 'duration']);
+        $this->define_headers(['ID', 'Participants', 'Messages', 'Start', 'End', 'Duration']);
         $this->no_sorting('participants');
         $this->collapsible(false);
         $this->sortable(true, 'timeend', SORT_DESC);
@@ -77,7 +77,7 @@ class local_chatlogs_converations_table extends table_sql {
                 LEFT JOIN {user} u ON p.userid = u.id
                 WHERE m.conversationid = ?
                GROUP BY p.fromemail, p.nickname, u.firstname, u.lastname';
-        $participants = $DB->get_records_sql_menu($sql, array($row->conversationid));
+        $participants = $DB->get_records_sql_menu($sql, [$row->conversationid]);
         $participants = implode(', ', $participants);
 
         return $this->conversation_link($row->conversationid, $participants);
@@ -141,7 +141,7 @@ class local_chatlogs_converations_table extends table_sql {
      * @return string HTML of link
      */
     private function conversation_link($id, $text) {
-        $url = new moodle_url('/local/chatlogs/index.php', array('conversationid' => $id));
+        $url = new moodle_url('/local/chatlogs/index.php', ['conversationid' => $id]);
 
         return html_writer::link($url, $text);
     }
@@ -183,7 +183,7 @@ class local_chatlogs_conversation {
 
         $this->urlfilter = new local_chatlogs\urlfilter();
         $this->conversation = $DB->get_record('local_chatlogs_conversations',
-            array('conversationid' => $conversationid), '*', MUST_EXIST);
+            ['conversationid' => $conversationid], '*', MUST_EXIST);
     }
 
     /**
@@ -202,13 +202,13 @@ class local_chatlogs_conversation {
         $sql = 'SELECT * FROM {local_chatlogs_conversations}
                 WHERE  id != ? AND timeend < ? AND messagecount > 0
                 ORDER BY timeend DESC LIMIT 1';
-        $previous = $DB->get_record_sql($sql, array($this->conversation->id, $this->conversation->timeend));
+        $previous = $DB->get_record_sql($sql, [$this->conversation->id, $this->conversation->timeend]);
 
         if ($previous) {
             $url = new moodle_url('/local/chatlogs/index.php',
-                array('conversationid' => $previous->conversationid));
+                ['conversationid' => $previous->conversationid]);
             $this->previouslink = html_writer::link($url, '&#x25C4; '.$previous->messagecount.' messages',
-                array('class' => 'previouslink'));
+                ['class' => 'previouslink']);
         }
 
         return $this->previouslink;
@@ -230,12 +230,12 @@ class local_chatlogs_conversation {
         $sql = 'SELECT * FROM {local_chatlogs_conversations}
                 WHERE  id != ? AND timeend > ? AND messagecount > 0
                 ORDER BY timeend ASC LIMIT 1';
-        $next = $DB->get_record_sql($sql, array($this->conversation->id, $this->conversation->timeend));
+        $next = $DB->get_record_sql($sql, [$this->conversation->id, $this->conversation->timeend]);
 
         if ($next) {
-            $url = new moodle_url('/local/chatlogs/index.php', array('conversationid' => $next->conversationid));
+            $url = new moodle_url('/local/chatlogs/index.php', ['conversationid' => $next->conversationid]);
             $this->nextlink = html_writer::link($url, $next->messagecount.' messages &#x25BA;',
-                array('class' => 'nextlink'));
+                ['class' => 'nextlink']);
         }
 
         return $this->nextlink;
@@ -254,13 +254,13 @@ class local_chatlogs_conversation {
 
         $header = new html_table();
         $header->width = '100%';
-        $header->wrap  = array('nowrap', '', 'nowrap');
-        $header->size = array('', '100%', '');
-        $header->data[] = array(
+        $header->wrap  = ['nowrap', '', 'nowrap'];
+        $header->size = ['', '100%', ''];
+        $header->data[] = [
             $OUTPUT->heading($this->get_previous_link()),
             $OUTPUT->heading("$starttime, for $duration"),
             $OUTPUT->heading($this->get_next_link()),
-        );
+        ];
 
         return html_writer::table($header);
     }
@@ -274,15 +274,15 @@ class local_chatlogs_conversation {
         global $OUTPUT;
 
         $footer = new html_table();
-        $footer->wrap  = array('nowrap', '', 'nowrap');
+        $footer->wrap  = ['nowrap', '', 'nowrap'];
         $footer->width = '100%';
-        $footer->size = array('', '100%', '');
-        $footer->data[] = array(
+        $footer->size = ['', '100%', ''];
+        $footer->data[] = [
             $OUTPUT->heading($this->get_previous_link()),
             $OUTPUT->heading(html_writer::link(new moodle_url('/local/chatlogs/index.php'),
                 get_string('allconversations', 'local_chatlogs'))),
             $OUTPUT->heading($this->get_next_link()),
-        );
+        ];
 
         return html_writer::table($footer);
     }
@@ -308,12 +308,12 @@ class local_chatlogs_conversation {
                 WHERE m.conversationid = :conversationid
                 ORDER BY m.timesent';
 
-        $rs = $DB->get_recordset_sql($sql, array('conversationid' => $this->conversation->conversationid));
+        $rs = $DB->get_recordset_sql($sql, ['conversationid' => $this->conversation->conversationid]);
         echo $this->conversation_header();
 
         $table = new html_table();
         $table->attributes['class'] = 'devchat';
-        $table->wrap  = array('nowrap', 'nowrap', '');
+        $table->wrap  = ['nowrap', 'nowrap', ''];
 
         foreach ($rs as $message) {
             $time = userdate($message->timesent, "%I:%M:%S %P");
@@ -326,7 +326,7 @@ class local_chatlogs_conversation {
             } else {
                 $namecell->text = $message->nickname . html_writer::empty_tag('br');
             }
-            $namecell->text .= html_writer::link('#c'.$message->messageid, $time,  array('class' => 'jabbertime'));
+            $namecell->text .= html_writer::link('#c'.$message->messageid, $time,  ['class' => 'jabbertime']);
 
             $messagecell = new html_table_cell();
             $messagecell->attributes['class'] = 'talkmessage';
@@ -339,7 +339,7 @@ class local_chatlogs_conversation {
             }
 
             // This is a bit of a hack to make the format plain, but have clickable links..
-            $formatedmessage = format_text($message->message, FORMAT_PLAIN, array('para' => false));
+            $formatedmessage = format_text($message->message, FORMAT_PLAIN, ['para' => false]);
             $this->urlfilter->convert_urls_into_links($formatedmessage);
             $messagecell->text .= $formatedmessage;
 
@@ -351,7 +351,7 @@ class local_chatlogs_conversation {
 
             $row = new html_table_row();
             $row->id = 'c'.$message->messageid;
-            $row->cells = array($imagecell, $namecell, $messagecell);
+            $row->cells = [$imagecell, $namecell, $messagecell];
             $table->data[] = $row;
         }
         $rs->close();
@@ -402,10 +402,10 @@ class local_chatlogs_search_table extends table_sql {
                             LEFT JOIN {user} u ON p.userid = u.id';
 
         $this->sql->where = $DB->sql_like('m.message', ':search');
-        $this->sql->params = array('search' => '%'.$searchterm.'%');
+        $this->sql->params = ['search' => '%'.$searchterm.'%'];
 
-        $this->define_columns(array('timesent', 'userpic', 'userid', 'message'));
-        $this->define_headers(array('Timesent', '', 'User', 'Message'));
+        $this->define_columns(['timesent', 'userpic', 'userid', 'message']);
+        $this->define_headers(['Timesent', '', 'User', 'Message']);
         $this->column_class('timesent', 'userinfo');
         $this->column_class('userpic', 'userpic');
         $this->column_class('userid', 'userinfo usersays');
@@ -423,10 +423,10 @@ class local_chatlogs_search_table extends table_sql {
      */
     public function col_timesent($row) {
         $link = new moodle_url('/local/chatlogs/index.php');
-        $link->params( array('conversationid' => $row->conversationid));
+        $link->params( ['conversationid' => $row->conversationid]);
         $link->set_anchor('c'.$row->messageid);
 
-        return html_writer::link($link, userdate($row->timesent),  array('class' => 'jabbertime'));
+        return html_writer::link($link, userdate($row->timesent),  ['class' => 'jabbertime']);
     }
 
     /**
@@ -472,7 +472,7 @@ class local_chatlogs_search_table extends table_sql {
             $row->message = substr(trim($row->message), 4);
         }
 
-        $message = format_text($row->message, FORMAT_MOODLE, array('para' => false));
+        $message = format_text($row->message, FORMAT_MOODLE, ['para' => false]);
         $text .= highlight($this->searchterm, $message);
 
         return $text;
@@ -489,11 +489,11 @@ class local_chatlogs_search_table extends table_sql {
 
         $url = new moodle_url('/local/chatlogs/index.php');
 
-        $o .= html_writer::start_tag('div', array('class' => 'searchform'));
-        $o .= html_writer::start_tag('form', array('method' => 'get', 'action' => $url->out()));
-        $o .= html_writer::empty_tag('input', array('type' => 'text', 'name' => 'q',
-             'value' => $searchtext, 'maxlength' => 100, 'size' => 20));
-        $o .= html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('searchmessages', 'local_chatlogs')));
+        $o .= html_writer::start_tag('div', ['class' => 'searchform']);
+        $o .= html_writer::start_tag('form', ['method' => 'get', 'action' => $url->out()]);
+        $o .= html_writer::empty_tag('input', ['type' => 'text', 'name' => 'q',
+             'value' => $searchtext, 'maxlength' => 100, 'size' => 20]);
+        $o .= html_writer::empty_tag('input', ['type' => 'submit', 'value' => get_string('searchmessages', 'local_chatlogs')]);
         $o .= html_writer::end_tag('form');
         $o .= html_writer::end_tag('div');
 

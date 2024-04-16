@@ -23,12 +23,14 @@
  */
 class local_chatlogs_cohort_selector extends admin_setting_configselect {
 
-    /** Lazy-load the available choices for the select box */
+    /**
+     * Lazy-load the available choices for the select box
+     */
     public function load_choices() {
         global $DB;
 
-        $this->choices = array(0 => get_string('none'));
-        if ($cohorts = $DB->get_records_menu('cohort', array('contextid' => context_system::instance()->id), 'name', 'id, name')) {
+        $this->choices = [0 => get_string('none')];
+        if ($cohorts = $DB->get_records_menu('cohort', ['contextid' => context_system::instance()->id], 'name', 'id, name')) {
             foreach ($cohorts as $key => $value) {
                 $this->choices[$key] = $value;
             }

@@ -36,9 +36,9 @@ global $CFG;
  * @license https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers \local_chatlogs_testable_telegram_importer
  */
-class telegram_importer_test extends \advanced_testcase {
+final class telegram_importer_test extends \advanced_testcase {
 
-    public function test_import_when_empty() {
+    public function test_import_when_empty(): void {
         $this->resetAfterTest();
 
         $importer = new local_chatlogs_testable_telegram_importer();
@@ -47,7 +47,7 @@ class telegram_importer_test extends \advanced_testcase {
         $this->assertEmpty($importedcount);
     }
 
-    public function test_import_fails_on_bad_json() {
+    public function test_import_fails_on_bad_json(): void {
         $this->resetAfterTest();
         $importer = new local_chatlogs_testable_telegram_importer();
         $importer->set_mock_response('{sdfs:sdf');
@@ -56,7 +56,7 @@ class telegram_importer_test extends \advanced_testcase {
         $importer->import();
     }
 
-    public function test_import() {
+    public function test_import(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -120,7 +120,7 @@ class telegram_importer_test extends \advanced_testcase {
         $this->assertSame(2, $DB->count_records('local_chatlogs_conversations'));
     }
 
-    public function test_import_with_existing_data() {
+    public function test_import_with_existing_data(): void {
         global $DB;
         $this->resetAfterTest();
         // Insert some chatlog data.
@@ -168,7 +168,7 @@ class telegram_importer_test extends \advanced_testcase {
         $this->assertSame(2, $DB->count_records('local_chatlogs_participants'));
     }
 
-    public function test_problematic_mysql_emojis() {
+    public function test_problematic_mysql_emojis(): void {
         global $DB;
         $this->resetAfterTest();
 

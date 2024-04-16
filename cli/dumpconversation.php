@@ -44,12 +44,13 @@ Options:
 ";
 
 list($options, $unrecognized) = cli_get_params(
-    array(
+    [
         'help' => false,
         'format' => 'mediawiki',
-    ), array(
+    ],
+    [
         'h' => 'help',
-    )
+    ],
 );
 
 if (!empty($options['help']) || count($unrecognized) <> 1) {
@@ -76,7 +77,7 @@ $sql = "SELECT m.id AS messageid, m.fromemail, m.fromplace, m.timesent,
          WHERE m.conversationid = :conversationid
          ORDER BY m.timesent";
 
-$rs = $DB->get_recordset_sql($sql, array('conversationid' => $conversationid));
+$rs = $DB->get_recordset_sql($sql, ['conversationid' => $conversationid]);
 
 if (!$rs->valid()) {
     cli_error('No data found');

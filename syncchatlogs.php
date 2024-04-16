@@ -95,7 +95,7 @@ if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime >
             $message->conversationid = $lastmessage->conversationid;   // Same.
 
             $conversation = $DB->get_record('local_chatlogs_conversations',
-                array('conversationid' => $message->conversationid), '*', MUST_EXIST);
+                ['conversationid' => $message->conversationid], '*', MUST_EXIST);
             $conversation->timeend = $message->timesent;
             $conversation->messagecount = $conversation->messagecount + 1;
             if (!$DB->update_record('local_chatlogs_conversations', $conversation)) {
@@ -128,7 +128,7 @@ if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime >
         // Now check that they have a registered name and if not, register them.
 
         if (empty($currentparticipant[$message->fromemail])) {
-            if (!$participant = $DB->get_record('local_chatlogs_participants', array('fromemail' => $message->fromemail))) {
+            if (!$participant = $DB->get_record('local_chatlogs_participants', ['fromemail' => $message->fromemail])) {
                 $participant = new object;
                 $participant->fromemail = $message->fromemail;
                 $participant->nickname = $message->fromnick;
@@ -164,10 +164,10 @@ if ($conversations = $DB->get_records('local_chatlogs_conversations', null, 'con
         if ($pushtonext) {  // Copy those to this.
             $DB->execute(
                 "UPDATE {local_chatlogs_messages} SET conversationid = $conversation->conversationid WHERE conversationid = ?",
-                array($pushtonext));
+                [$pushtonext]);
             $DB->execute(
                 "UPDATE {local_chatlogs_conversations} SET messagecount = 0 WHERE conversationid = ?",
-                array($pushtonext));
+                [$pushtonext]);
             $pushtonext = 0;
         }
 
