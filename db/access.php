@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Capability definitions for the chat logs plugin
@@ -20,25 +20,25 @@
  * @package     local_chatlogs
  * @category    access
  * @copyright   2012 Dan Poltawski <dan@moodle.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
+$capabilities = [
 
     // Ability to view chatlogs irrespective of cohort memebership.
-    'local/chatlogs:view' => array(
+    'local/chatlogs:view' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
-        'legacy' => array()
-    ),
+        'legacy' => [],
+    ],
 
     // Ability to view chatlogs if developer cohort.
-    'local/chatlogs:viewifdeveloper' => array(
+    'local/chatlogs:viewifdeveloper' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
-        'legacy' => array()
-    ),
+        'legacy' => [],
+    ],
 
-);
+];

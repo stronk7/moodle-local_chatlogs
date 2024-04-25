@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Lang file for local_chatlogs plugin
@@ -20,7 +20,7 @@
  * @package     local_chatlogs
  * @category    string
  * @copyright   2012 Dan Poltawski <dan@moodle.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -33,14 +33,20 @@ $string['apiurldescription'] = 'The url to the telegram logbot api to retrieve r
 $string['chatlogs:manage'] = 'Manage the developer chat logs plugin';
 $string['chatlogs:view'] = 'View developer chat logs irrespective of cohort membership';
 $string['chatlogs:viewifdeveloper'] = 'View developer chat logs if in developer cohort';
-$string['developerconversations'] = 'Chat history';
 $string['developercohort'] = 'Developer cohort';
 $string['developercohortdescription'] = 'Select the cohort which developers are in. Users in this cohort and with the local/chatlogs:viewifdeveloper capability will be able to view the chatlogs';
+$string['developerconversations'] = 'Chat history';
 $string['info'] = 'Info';
+$string['infohistory'] = 'Historically, Moodle developers used a Jabber chat room for synchronous
+discussions. Since 2017, the chat was moved to <a href="https://telegram.org/">Telegram</a>.
+And later, in 2022, it was decided to move everything to <a href="https://matrix.org/">Matrix</a>.
+Developers are encouraged to join the chat at <a href="https://telegram.me/moodledev">telegram.me/moodledev</a> or
+<a href="https://matrix.to/#/#moodledev:moodle.com">matrix.to/#/#moodledev:moodle.com</a>.
+Both rooms are bridged, so you can use either one.';
 $string['jabberaliases'] = 'Aliases';
 $string['jabberaliasesassign'] = 'Assign user';
-$string['jabberid'] = 'ID';
 $string['jabberfullname'] = 'Nick';
+$string['jabberid'] = 'ID';
 $string['pluginname'] = 'Developer chat';
 $string['privacy:metadata:db:messages'] = 'Stores copies of developer chat discussions';
 $string['privacy:metadata:db:messages:conversationid'] = 'Internal identifier of the conversation';

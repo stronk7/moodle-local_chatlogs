@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * CLI script to perform the fetch all the new chat logs to the plugin
+ *
+ * @package     local_chatlogs
+ * @copyright   2012 Dan Poltawski <dan@moodle.com>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 define('CLI_SCRIPT', true);
 require(__DIR__.'/../../config.php');
@@ -20,7 +28,7 @@ require(__DIR__.'/../../config.php');
 // Only php cli allowed.
 if (isset($_SERVER['REMOTE_ADDR'])) {
     if ($_SERVER['REMOTE_ADDR'] != "174.123.154.58") {
-        print_error('cronerrorclionly', 'admin');
+        throw new moodle_exception('cronerrorclionly', 'admin');
         exit;
     } else {
         $ismoodlebot = true;
@@ -87,7 +95,7 @@ if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime >
             $message->conversationid = $lastmessage->conversationid;   // Same.
 
             $conversation = $DB->get_record('local_chatlogs_conversations',
-                array('conversationid' => $message->conversationid), '*', MUST_EXIST);
+                ['conversationid' => $message->conversationid], '*', MUST_EXIST);
             $conversation->timeend = $message->timesent;
             $conversation->messagecount = $conversation->messagecount + 1;
             if (!$DB->update_record('local_chatlogs_conversations', $conversation)) {
@@ -120,7 +128,7 @@ if ($rs = $chatdb->get_recordset_sql("SELECT * FROM $SYNC_TABLE WHERE (logTime >
         // Now check that they have a registered name and if not, register them.
 
         if (empty($currentparticipant[$message->fromemail])) {
-            if (!$participant = $DB->get_record('local_chatlogs_participants', array('fromemail' => $message->fromemail))) {
+            if (!$participant = $DB->get_record('local_chatlogs_participants', ['fromemail' => $message->fromemail])) {
                 $participant = new object;
                 $participant->fromemail = $message->fromemail;
                 $participant->nickname = $message->fromnick;
@@ -140,7 +148,7 @@ if (!isset($ismoodlebot)) {
 } else {
     $conversationid = $DB->get_field_sql(
         "SELECT conversationid FROM {local_chatlogs_conversations} ORDER BY conversationid desc LIMIT 1");
-    echo "Synchronised chat logs ($count new messages) - URL: http://moodle.org/local/chatlogs/index.php?conversationid=" .
+    echo "Synchronised chat logs ($count new messages) - URL: https://moodle.org/local/chatlogs/index.php?conversationid=" .
         $conversationid."\n";
 }
 
@@ -156,10 +164,10 @@ if ($conversations = $DB->get_records('local_chatlogs_conversations', null, 'con
         if ($pushtonext) {  // Copy those to this.
             $DB->execute(
                 "UPDATE {local_chatlogs_messages} SET conversationid = $conversation->conversationid WHERE conversationid = ?",
-                array($pushtonext));
+                [$pushtonext]);
             $DB->execute(
                 "UPDATE {local_chatlogs_conversations} SET messagecount = 0 WHERE conversationid = ?",
-                array($pushtonext));
+                [$pushtonext]);
             $pushtonext = 0;
         }
 

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Telegram importer tests.
+ *
+ * @package local_chatlogs
+ * @copyright 2017 Dan Poltawski
+ * @license https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace local_chatlogs;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -23,11 +33,12 @@ global $CFG;
  *
  * @package local_chatlogs
  * @copyright 2017 Dan Poltawski
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers \local_chatlogs_testable_telegram_importer
  */
-class local_chatlogs_telegram_importer_test extends advanced_testcase {
+final class telegram_importer_test extends \advanced_testcase {
 
-    public function test_import_when_empty() {
+    public function test_import_when_empty(): void {
         $this->resetAfterTest();
 
         $importer = new local_chatlogs_testable_telegram_importer();
@@ -36,16 +47,16 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
         $this->assertEmpty($importedcount);
     }
 
-    public function test_import_fails_on_bad_json() {
+    public function test_import_fails_on_bad_json(): void {
         $this->resetAfterTest();
         $importer = new local_chatlogs_testable_telegram_importer();
         $importer->set_mock_response('{sdfs:sdf');
 
-        $this->expectException(moodle_exception::class);
+        $this->expectException(\moodle_exception::class);
         $importer->import();
     }
 
-    public function test_import() {
+    public function test_import(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -109,7 +120,7 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
         $this->assertSame(2, $DB->count_records('local_chatlogs_conversations'));
     }
 
-    public function test_import_with_existing_data() {
+    public function test_import_with_existing_data(): void {
         global $DB;
         $this->resetAfterTest();
         // Insert some chatlog data.
@@ -157,7 +168,7 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
         $this->assertSame(2, $DB->count_records('local_chatlogs_participants'));
     }
 
-    public function test_problematic_mysql_emojis() {
+    public function test_problematic_mysql_emojis(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -180,9 +191,9 @@ class local_chatlogs_telegram_importer_test extends advanced_testcase {
  * Testable importer which generates mock server response.
  * @package local_chatlogs
  * @copyright 2017 Dan Poltawski
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_chatlogs_testable_telegram_importer extends local_chatlogs\telegram_importer {
+class local_chatlogs_testable_telegram_importer extends telegram_importer {
     /** @var string|array mock response */
     private $mockresponse = null;
 
@@ -206,9 +217,9 @@ class local_chatlogs_testable_telegram_importer extends local_chatlogs\telegram_
 
         // Simulate server-side filtering of timestamp.
         if ($timestamp = $url->param('aftertimestamp')) {
-            $afterdate = new DateTime($timestamp);
+            $afterdate = new \DateTime($timestamp);
             $resp = array_filter($this->mockresponse, function ($row) use($afterdate) {
-                return new DateTime($row->timestamp) > $afterdate;
+                return new \DateTime($row->timestamp) > $afterdate;
             });
             return json_encode(array_values($resp));
         }

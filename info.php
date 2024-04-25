@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,14 +12,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Displays info of how to get to the chat logs
  *
  * @package     local_chatlogs
  * @copyright   2012 Dan Poltawski <dan@moodle.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require(dirname(dirname(dirname(__FILE__))).'/config.php');
@@ -36,16 +36,10 @@ $PAGE->set_heading(get_string('info', 'local_chatlogs'));
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Moodle developers chat');
 echo $OUTPUT->box_start('text-center lead');
-?>
+echo html_writer::tag('p', get_string('infohistory', 'local_chatlogs'));
 
-<p>Historically, Moodle developers used a Jabber chat room for synchronous
-discussions. Since February 1st 2017, the chat has been moved to <a
-href="https://telegram.org/">Telegram</a>. Developers are encouraged to join
-the chat at <a href="https://telegram.me/moodledev">telegram.me/moodledev</a>.</p>
+echo html_writer::tag('hr', '');
 
-<hr />
-
-<?php
 echo $OUTPUT->pix_icon('telegram', 'Moodle dev and Telegram logos', 'local_chatlogs',
     ['width' => 118, 'class' => 'img-responsive']);
 echo $OUTPUT->box_end();
