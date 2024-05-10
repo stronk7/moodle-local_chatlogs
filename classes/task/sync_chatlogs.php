@@ -46,6 +46,7 @@ class sync_chatlogs extends \core\task\scheduled_task {
     public function execute() {
         $url = get_config('local_chatlogs', 'apiurl');
         $secret = get_config('local_chatlogs', 'apisecret');
+        $matrixroom = get_config('local_chatlogs', 'matrixroom');
         if (empty($url)) {
             mtrace('local_chatlogs/apiurl is not configured, nothing to do.');
             return;
@@ -54,7 +55,13 @@ class sync_chatlogs extends \core\task\scheduled_task {
         }
 
         mtrace("Syncing chatlogs from {$url}");
-        $importer = new \local_chatlogs\telegram_importer($url, $secret);
+        if (!empty($matrixroom)) {
+            mtrace("Using matrix importer");
+            $importer = new \local_chatlogs\matrix_importer($url, $secret, $matrixroom);
+        } else {
+            mtrace("Using telegram importer");
+            $importer = new \local_chatlogs\telegram_importer($url, $secret);
+        }
         $count = $importer->import();
         mtrace("Chatlogs sync complete. {$count} messages synced.");
     }

@@ -39,6 +39,9 @@ if (has_capability('moodle/site:config', context_system::instance())) {
         new lang_string('apisecret', 'local_chatlogs'),
         new lang_string('apisecretdescription', 'local_chatlogs'), ''));
 
+    $temp->add(new admin_setting_configtext('local_chatlogs/matrixroom',
+        new lang_string('matrixroom', 'local_chatlogs'),
+        new lang_string('matrixroomdescription', 'local_chatlogs'), '', PARAM_TEXT));
 
     $ADMIN->add('localplugins', $temp);
 }
