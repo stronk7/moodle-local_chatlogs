@@ -306,7 +306,7 @@ class local_chatlogs_conversation {
                 LEFT JOIN {user} u
                     ON p.userid = u.id
                 WHERE m.conversationid = :conversationid
-                ORDER BY m.timesent';
+                ORDER BY m.timesent, m.id';
 
         $rs = $DB->get_recordset_sql($sql, ['conversationid' => $this->conversation->conversationid]);
         echo $this->conversation_header();
@@ -339,7 +339,7 @@ class local_chatlogs_conversation {
             }
 
             // This is a bit of a hack to make the format plain, but have clickable links..
-            $formatedmessage = format_text($message->message, FORMAT_PLAIN, ['para' => false]);
+            $formatedmessage = format_text($message->message, FORMAT_HTML, ['para' => false]);
             $this->urlfilter->convert_urls_into_links($formatedmessage);
             $messagecell->text .= $formatedmessage;
 
